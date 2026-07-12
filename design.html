@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INYD Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* ===== colors (from design.md) ===== */
+    --color-background: #010101;
+    --color-on-background: #FFFFFF;
+    --color-surface: #181818;
+    --color-on-surface: #FFFFFF;
+    --color-surface-inverse: #FFFFFF;
+    --color-on-surface-inverse: #010101;
+    --color-text-secondary: #CBCBCB;
+    --color-text-tertiary: #6D6D6D;
+    --color-border: #4D4D4D;
+    --color-accent: #FF8469;
+    --color-gradient-rose-deep: #763A3D;
+    --color-gradient-rose: #B27469;
+    --color-gradient-rose-gold: #D9A392;
+    --color-success: #A0E0AB;
+    --color-warning: #FFAC2E;
+    --color-error: #A52D25;
+    --color-info: #458F51;
+    --gradient-rose-gold: linear-gradient(115deg, var(--color-gradient-rose-deep) 0%, var(--color-gradient-rose-gold) 55%, var(--color-gradient-rose) 100%);
+
+    /* ===== typography ===== */
+    --font-sans: "Roobert", "Manrope", system-ui, -apple-system, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+    --type-marquee-size: 224px; --type-marquee-weight: 300; --type-marquee-lh: 1.25; --type-marquee-ls: -0.02em;
+    --type-display-size: 78px;  --type-display-weight: 300; --type-display-lh: 1.06; --type-display-ls: -0.01em;
+    --type-h1-size: 54px;  --type-h1-weight: 300; --type-h1-lh: 1.4;
+    --type-h2-size: 37px;  --type-h2-weight: 400; --type-h2-lh: 1.3;
+    --type-h3-size: 28px;  --type-h3-weight: 300; --type-h3-lh: 1.4;
+    --type-h4-size: 18px;  --type-h4-weight: 400; --type-h4-lh: 1.2;
+    --type-body-size: 15px; --type-body-weight: 400; --type-body-lh: 1.65;
+    --type-body-small-size: 12px; --type-body-small-weight: 300; --type-body-small-lh: 1.6;
+    --type-label-size: 11px; --type-label-weight: 600; --type-label-lh: 1.2; --type-label-ls: 0.04em;
+    --type-nav-size: 13px; --type-nav-weight: 300; --type-nav-lh: 1.2; --type-nav-ls: 0.28em;
+    --type-mono-size: 13px;
+
+    /* ===== rounded ===== */
+    --rounded-none: 0px;
+    --rounded-sm: 10px;
+    --rounded-pill: 999px;
+
+    /* ===== spacing ===== */
+    --space-xs: 8px;
+    --space-sm: 16px;
+    --space-md: 24px;
+    --space-lg: 40px;
+    --space-xl: 64px;
+    --space-2xl: 96px;
+    --space-3xl: 160px;
+
+    /* page chrome derived from tokens */
+    --page-bg: var(--color-background);
+    --page-fg: var(--color-on-background);
+    --page-hairline: var(--color-border);
+  }
+  :root[data-theme="light"] {
+    --page-bg: var(--color-surface-inverse);
+    --page-fg: var(--color-on-surface-inverse);
+    --page-hairline: #D9D9D9;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--page-bg);
+    color: var(--page-fg);
+    font-family: var(--font-sans);
+    font-size: var(--type-body-size);
+    font-weight: var(--type-body-weight);
+    line-height: var(--type-body-lh);
+    transition: background .4s ease, color .4s ease;
+  }
+  /* subtle grain, sanctioned substitute for the WebGL noise */
+  body::before {
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: .035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .wrap { position: relative; z-index: 1; max-width: 1080px; margin: 0 auto; padding: var(--space-xl) var(--space-md) var(--space-3xl); }
+
+  /* chrome */
+  header.page { padding: var(--space-2xl) 0 var(--space-xl); border-bottom: 1px solid var(--page-hairline); }
+  header.page h1 { font-size: var(--type-display-size); font-weight: var(--type-display-weight); line-height: var(--type-display-lh); letter-spacing: var(--type-display-ls); }
+  header.page p.desc { margin-top: var(--space-md); color: var(--color-text-secondary); max-width: 56ch; }
+  :root[data-theme="light"] header.page p.desc, :root[data-theme="light"] .muted { color: #555; }
+  header.page .mirror-note { margin-top: var(--space-sm); font-size: var(--type-body-small-size); color: var(--color-text-tertiary); }
+  section.sec { padding: var(--space-2xl) 0 0; }
+  .eyebrow { font-size: var(--type-label-size); font-weight: var(--type-label-weight); letter-spacing: var(--type-label-ls); line-height: var(--type-label-lh); text-transform: uppercase; color: var(--color-text-secondary); margin-bottom: var(--space-lg); display: block; }
+  :root[data-theme="light"] .eyebrow { color: #555; }
+  .sec > h2.sec-title { font-size: var(--type-h2-size); font-weight: var(--type-h2-weight); line-height: var(--type-h2-lh); margin-bottom: var(--space-xs); }
+  .sec > p.sec-intro { color: var(--color-text-secondary); max-width: 64ch; margin-bottom: var(--space-lg); }
+  :root[data-theme="light"] .sec > p.sec-intro { color: #555; }
+  .token-name { font-family: var(--font-mono); font-size: var(--type-mono-size); }
+  .muted { color: var(--color-text-tertiary); }
+
+  /* theme toggle */
+  .theme-toggle { position: fixed; top: var(--space-md); right: var(--space-md); z-index: 10;
+    font-family: var(--font-sans); font-size: var(--type-label-size); font-weight: var(--type-label-weight); letter-spacing: var(--type-label-ls); text-transform: uppercase;
+    background: transparent; color: var(--page-fg); border: 1px solid var(--page-hairline); border-radius: var(--rounded-pill); padding: 10px 22px; cursor: pointer; transition: all .3s ease; }
+  .theme-toggle:hover { background: var(--gradient-rose-gold); color: var(--color-on-background); border-color: transparent; }
+
+  /* colors */
+  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: var(--space-sm); }
+  .swatch { border: 1px solid var(--page-hairline); border-radius: var(--rounded-none); overflow: hidden; }
+  .swatch .chip { height: 96px; display: flex; align-items: flex-end; padding: var(--space-sm); font-size: var(--type-body-small-size); }
+  .swatch .meta { padding: var(--space-sm); display: flex; justify-content: space-between; gap: 8px; font-size: var(--type-body-small-size); }
+  .swatch .meta .hex { color: var(--color-text-tertiary); font-family: var(--font-mono); }
+  .gradient-band { margin-top: var(--space-lg); border: 1px solid var(--page-hairline); }
+  .gradient-band .chip { height: 96px; background: var(--gradient-rose-gold); display: flex; align-items: flex-end; padding: var(--space-sm); color: var(--color-on-background); font-size: var(--type-body-small-size); }
+  .gradient-band .meta { padding: var(--space-sm); font-size: var(--type-body-small-size); color: var(--color-text-tertiary); font-family: var(--font-mono); }
+
+  /* typography */
+  .specimen { border-top: 1px solid var(--page-hairline); padding: var(--space-lg) 0; display: grid; grid-template-columns: 200px 1fr; gap: var(--space-md); align-items: baseline; }
+  .specimen .spec-meta { font-size: var(--type-body-small-size); color: var(--color-text-tertiary); font-family: var(--font-mono); line-height: 1.8; }
+  .specimen .sample { overflow: hidden; }
+  @media (max-width: 720px) { .specimen { grid-template-columns: 1fr; } }
+  .t-marquee { font-size: clamp(60px, 15vw, var(--type-marquee-size)); font-weight: var(--type-marquee-weight); line-height: var(--type-marquee-lh); letter-spacing: var(--type-marquee-ls); white-space: nowrap; }
+  .t-display { font-size: clamp(44px, 5.4vw, var(--type-display-size)); font-weight: var(--type-display-weight); line-height: var(--type-display-lh); letter-spacing: var(--type-display-ls); }
+  .t-h1 { font-size: clamp(34px, 3.75vw, var(--type-h1-size)); font-weight: var(--type-h1-weight); line-height: var(--type-h1-lh); }
+  .t-h2 { font-size: var(--type-h2-size); font-weight: var(--type-h2-weight); line-height: var(--type-h2-lh); }
+  .t-h3 { font-size: var(--type-h3-size); font-weight: var(--type-h3-weight); line-height: var(--type-h3-lh); }
+  .t-h4 { font-size: var(--type-h4-size); font-weight: var(--type-h4-weight); line-height: var(--type-h4-lh); }
+  .t-body { font-size: var(--type-body-size); font-weight: var(--type-body-weight); line-height: var(--type-body-lh); max-width: 56ch; }
+  .t-body-small { font-size: var(--type-body-small-size); font-weight: var(--type-body-small-weight); line-height: var(--type-body-small-lh); max-width: 60ch; }
+  .t-label { font-size: var(--type-label-size); font-weight: var(--type-label-weight); line-height: var(--type-label-lh); letter-spacing: var(--type-label-ls); text-transform: uppercase; }
+  .t-nav { font-size: var(--type-nav-size); font-weight: var(--type-nav-weight); line-height: var(--type-nav-lh); letter-spacing: var(--type-nav-ls); text-transform: uppercase; }
+  .t-mono { font-family: var(--font-mono); font-size: var(--type-mono-size); line-height: 1.5; }
+
+  /* spacing */
+  .space-row { display: flex; align-items: center; gap: var(--space-md); border-top: 1px solid var(--page-hairline); padding: var(--space-sm) 0; }
+  .space-row .lbl { width: 160px; font-family: var(--font-mono); font-size: var(--type-body-small-size); color: var(--color-text-tertiary); }
+  .space-row .bar { height: 20px; background: var(--gradient-rose-gold); }
+
+  /* radius */
+  .radius-row { display: flex; gap: var(--space-lg); flex-wrap: wrap; }
+  .radius-box { width: 200px; height: 110px; border: 1px solid var(--page-fg); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 6px; }
+  .radius-box .nm { font-family: var(--font-mono); font-size: var(--type-body-small-size); color: var(--color-text-tertiary); }
+
+  /* elevation */
+  .elev-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: var(--space-sm); }
+  .elev-card { padding: var(--space-md); min-height: 140px; display: flex; flex-direction: column; justify-content: flex-end; gap: 6px; }
+  .elev-card .nm { font-family: var(--font-mono); font-size: var(--type-body-small-size); color: var(--color-text-tertiary); }
+  .e-0 { background: var(--color-background); color: var(--color-on-background); border: 1px solid var(--page-hairline); }
+  .e-1 { background: var(--color-surface); color: var(--color-on-surface); }
+  .e-2 { background: var(--color-surface-inverse); color: var(--color-on-surface-inverse); }
+
+  /* components */
+  .comp-group { border-top: 1px solid var(--page-hairline); padding: var(--space-lg) 0; }
+  .comp-group h3 { font-size: var(--type-h4-size); font-weight: var(--type-h4-weight); margin-bottom: 6px; }
+  .comp-group p.note { font-size: var(--type-body-small-size); color: var(--color-text-tertiary); margin-bottom: var(--space-md); max-width: 64ch; }
+  .comp-row { display: flex; gap: var(--space-md); flex-wrap: wrap; align-items: center; }
+  .state-lbl { display: block; font-size: 10px; font-family: var(--font-mono); color: var(--color-text-tertiary); margin-bottom: 8px; }
+
+  .btn-ghost { display: inline-block; font-family: var(--font-sans); font-size: var(--type-body-small-size); font-weight: 400; letter-spacing: var(--type-label-ls); text-transform: uppercase;
+    color: var(--page-fg); background: transparent; border: 1px solid var(--page-hairline); border-radius: var(--rounded-pill); padding: 19px 40px; cursor: pointer; text-decoration: none; transition: all .35s ease; }
+  .btn-ghost:hover, .btn-ghost.is-hover { background: var(--gradient-rose-gold); color: var(--color-on-background); border-color: transparent; }
+  .btn-solid { display: inline-block; font-family: var(--font-sans); font-size: var(--type-body-small-size); letter-spacing: var(--type-label-ls); text-transform: uppercase;
+    color: var(--color-on-surface); background: var(--color-surface); border: none; border-radius: var(--rounded-pill); padding: 19px 48px; cursor: pointer; text-decoration: none; transition: opacity .3s ease; }
+  :root[data-theme="light"] .btn-solid { background: var(--color-surface); color: var(--color-on-surface); }
+  .btn-solid:hover { opacity: .85; }
+  .is-disabled { opacity: .3; pointer-events: none; }
+
+  .chip-label { font-size: var(--type-label-size); font-weight: var(--type-label-weight); letter-spacing: var(--type-label-ls); line-height: var(--type-label-lh); text-transform: uppercase; color: var(--color-text-secondary); }
+  :root[data-theme="light"] .chip-label { color: #555; }
+
+  .navlink { font-size: var(--type-nav-size); font-weight: var(--type-nav-weight); letter-spacing: var(--type-nav-ls); text-transform: uppercase; color: var(--page-fg); text-decoration: none; opacity: .6; transition: opacity .3s ease; padding: 8px 0; display: inline-block; }
+  .navlink:hover, .navlink.is-active { opacity: 1; }
+  .navlink.is-active { border-bottom: 1px solid var(--page-fg); }
+
+  .card-project { width: 320px; text-decoration: none; color: var(--page-fg); display: block; }
+  .card-project .frame { overflow: hidden; border-radius: var(--rounded-none); margin-bottom: var(--space-sm); }
+  .card-project .img { height: 200px; background:
+      radial-gradient(circle at 70% 20%, rgba(217,163,146,.6), transparent 55%),
+      radial-gradient(circle at 20% 80%, rgba(118,58,61,.75), transparent 60%),
+      radial-gradient(circle at 50% 50%, rgba(178,116,105,.4), transparent 60%),
+      var(--color-surface);
+    transition: transform .6s cubic-bezier(.22,1,.36,1); }
+  .card-project:hover .img { transform: scale(1.05); }
+  .card-project .ttl { font-size: var(--type-h4-size); font-weight: var(--type-h4-weight); line-height: var(--type-h4-lh); margin-bottom: 6px; }
+
+  .footer-link { font-size: var(--type-h2-size); font-weight: 300; line-height: var(--type-h2-lh); color: var(--page-fg); text-decoration: none; background-image: var(--gradient-rose-gold); background-repeat: no-repeat; background-position: 0 100%; background-size: 0% 2px; transition: background-size .4s ease; }
+  .footer-link:hover { background-size: 100% 2px; }
+
+  /* do's and don'ts */
+  .dd { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); }
+  @media (max-width: 720px) { .dd { grid-template-columns: 1fr; } }
+  .dd ul { list-style: none; }
+  .dd li { border-top: 1px solid var(--page-hairline); padding: var(--space-sm) 0; font-size: var(--type-body-size); line-height: var(--type-body-lh); }
+  .dd .do h3 { color: var(--color-success); } .dd .dont h3 { color: var(--color-accent); }
+  .dd h3 { font-size: var(--type-h4-size); font-weight: 400; margin-bottom: var(--space-sm); }
+  .dd li::before { font-family: var(--font-mono); margin-right: 10px; }
+  .dd .do li::before { content: "✓"; color: var(--color-success); }
+  .dd .dont li::before { content: "✗"; color: var(--color-accent); }
+</style>
+</head>
+<body>
+<button class="theme-toggle" onclick="const r=document.documentElement; r.dataset.theme = r.dataset.theme==='dark'?'light':'dark';">Invert Mode</button>
+
+<div class="wrap">
+
+  <header class="page">
+    <span class="eyebrow">INYD Design System</span>
+    <h1>United,<br>Unbound</h1>
+    <p class="desc">Dark editorial design system extracted from monopo.vn — grain-black canvas, oversized light-weight type, deep rose-gold gradient accents, pill ghost buttons.</p>
+    <p class="mirror-note">This file is the human-readable mirror of <span class="token-name">docs/design.md</span> (the source of truth). Toggle “Invert Mode” to see the system’s white inverse.</p>
+  </header>
+
+  <!-- ============ COLORS ============ -->
+  <section class="sec" id="colors">
+    <h2 class="sec-title">Colors</h2>
+    <p class="sec-intro">A radically restrained palette: near-black, white, two grays, one hairline — and a deep rose-gold gradient that appears on interaction only, with coral as its bright cousin for tiny static highlights.</p>
+    <div class="swatches">
+      <div class="swatch"><div class="chip" style="background:#010101;color:#FFFFFF;border-bottom:1px solid var(--page-hairline)">on-background text</div><div class="meta"><span class="token-name">background</span><span class="hex">#010101</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#FFFFFF;color:#010101">on-surface-inverse text</div><div class="meta"><span class="token-name">surface-inverse</span><span class="hex">#FFFFFF</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#181818;color:#FFFFFF">on-surface text</div><div class="meta"><span class="token-name">surface</span><span class="hex">#181818</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#CBCBCB;color:#010101">secondary text on dark</div><div class="meta"><span class="token-name">text-secondary</span><span class="hex">#CBCBCB</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#6D6D6D;color:#FFFFFF">meta text only</div><div class="meta"><span class="token-name">text-tertiary</span><span class="hex">#6D6D6D</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#4D4D4D;color:#FFFFFF">hairlines (≈ white 30%)</div><div class="meta"><span class="token-name">border</span><span class="hex">#4D4D4D</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#FF8469;color:#010101">the coral accent</div><div class="meta"><span class="token-name">accent</span><span class="hex">#FF8469</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#763A3D;color:#FFFFFF">gradient start</div><div class="meta"><span class="token-name">gradient-rose-deep</span><span class="hex">#763A3D</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#D9A392;color:#010101">gradient highlight</div><div class="meta"><span class="token-name">gradient-rose-gold</span><span class="hex">#D9A392</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#B27469;color:#FFFFFF">gradient end</div><div class="meta"><span class="token-name">gradient-rose</span><span class="hex">#B27469</span></div></div>
+    </div>
+    <span class="eyebrow" style="margin-top:var(--space-lg)">Semantic states</span>
+    <div class="swatches">
+      <div class="swatch"><div class="chip" style="background:#A0E0AB;color:#010101">success</div><div class="meta"><span class="token-name">success</span><span class="hex">#A0E0AB</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#FFAC2E;color:#010101">warning</div><div class="meta"><span class="token-name">warning</span><span class="hex">#FFAC2E</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#A52D25;color:#FFFFFF">error — fill only, white text</div><div class="meta"><span class="token-name">error</span><span class="hex">#A52D25</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#458F51;color:#010101">info</div><div class="meta"><span class="token-name">info</span><span class="hex">#458F51</span></div></div>
+    </div>
+    <div class="gradient-band">
+      <div class="chip">the rose-gold gradient — interaction states only</div>
+      <div class="meta">linear-gradient(115deg, gradient-rose-deep → gradient-rose-gold → gradient-rose)</div>
+    </div>
+  </section>
+
+  <!-- ============ TYPOGRAPHY ============ -->
+  <section class="sec" id="typography">
+    <h2 class="sec-title">Typography</h2>
+    <p class="sec-intro">Roobert everywhere (Manrope shown here as the free stand-in). The voice is Light 300 at enormous scale against tiny tracked-uppercase utilities. Desktop-reference sizes — implement fluidly with vw/clamp().</p>
+
+    <div class="specimen"><div class="spec-meta">marquee<br>224px · 300 · 1.25 · −0.02em</div><div class="sample"><div class="t-marquee">Saigon Souls</div></div></div>
+    <div class="specimen"><div class="spec-meta">display<br>78px · 300 · 1.06 · −0.01em</div><div class="sample"><div class="t-display">United, Unbound</div></div></div>
+    <div class="specimen"><div class="spec-meta">h1<br>54px · 300 · 1.4</div><div class="sample"><div class="t-h1">Tokyo-born, creative studio</div></div></div>
+    <div class="specimen"><div class="spec-meta">h2<br>37px · 400 · 1.3</div><div class="sample"><div class="t-h2">From Tokyo to Saigon, we come from both.</div></div></div>
+    <div class="specimen"><div class="spec-meta">h3<br>28px · 300 · 1.4</div><div class="sample"><div class="t-h3">We blend global craft with local soul.</div></div></div>
+    <div class="specimen"><div class="spec-meta">h4<br>18px · 400 · 1.2</div><div class="sample"><div class="t-h4">Canada Goose — Nomad Collection</div></div></div>
+    <div class="specimen"><div class="spec-meta">body<br>15px · 400 · 1.65</div><div class="sample"><p class="t-body">Saigon Souls captures a state of mind — the energy of a city in motion, told through film, design and sound. Body copy stays small and editorial, with generous leading that lets long passages breathe like a printed column.</p></div></div>
+    <div class="specimen"><div class="spec-meta">body-small<br>12px · 300 · 1.6</div><div class="sample"><p class="t-body-small">Secondary copy, captions and legal text sit one step down, in the Light weight, holding the same editorial rhythm at reduced volume.</p></div></div>
+    <div class="specimen"><div class="spec-meta">label<br>11px · 600 · 0.04em · caps</div><div class="sample"><span class="t-label">Creative Direction — Video Production — Installation</span></div></div>
+    <div class="specimen"><div class="spec-meta">nav<br>13px · 300 · 0.28em · caps</div><div class="sample"><span class="t-nav">Work&nbsp;&nbsp;Manifesto&nbsp;&nbsp;Team&nbsp;&nbsp;Contact</span></div></div>
+    <div class="specimen"><div class="spec-meta">mono<br>13px · 400 · 1.5</div><div class="sample"><span class="t-mono">--color-accent: #FF8469;</span></div></div>
+  </section>
+
+  <!-- ============ SPACING ============ -->
+  <section class="sec" id="spacing">
+    <h2 class="sec-title">Spacing</h2>
+    <p class="sec-intro">Base-8 scale, leaned hard toward the top end — sections breathe at 2xl–3xl. When in doubt, double the space.</p>
+    <div class="space-row"><span class="lbl">xs · 8px</span><div class="bar" style="width:var(--space-xs)"></div></div>
+    <div class="space-row"><span class="lbl">sm · 16px</span><div class="bar" style="width:var(--space-sm)"></div></div>
+    <div class="space-row"><span class="lbl">md · 24px</span><div class="bar" style="width:var(--space-md)"></div></div>
+    <div class="space-row"><span class="lbl">lg · 40px</span><div class="bar" style="width:var(--space-lg)"></div></div>
+    <div class="space-row"><span class="lbl">xl · 64px</span><div class="bar" style="width:var(--space-xl)"></div></div>
+    <div class="space-row"><span class="lbl">2xl · 96px</span><div class="bar" style="width:var(--space-2xl)"></div></div>
+    <div class="space-row"><span class="lbl">3xl · 160px</span><div class="bar" style="width:var(--space-3xl)"></div></div>
+  </section>
+
+  <!-- ============ RADIUS ============ -->
+  <section class="sec" id="radius">
+    <h2 class="sec-title">Radius</h2>
+    <p class="sec-intro">Two shape languages with strict roles: pills mean pressable; everything else is sharp. <span class="token-name">sm</span> is reserved for small utility surfaces.</p>
+    <div class="radius-row">
+      <div class="radius-box" style="border-radius:var(--rounded-none)"><span>Cards · media · containers</span><span class="nm">none · 0px</span></div>
+      <div class="radius-box" style="border-radius:var(--rounded-sm)"><span>Toasts · banners</span><span class="nm">sm · 10px</span></div>
+      <div class="radius-box" style="border-radius:var(--rounded-pill)"><span>Buttons · pills</span><span class="nm">pill · 999px</span></div>
+    </div>
+  </section>
+
+  <!-- ============ ELEVATION ============ -->
+  <section class="sec" id="elevation">
+    <h2 class="sec-title">Elevation &amp; Depth</h2>
+    <p class="sec-intro">Completely flat — no shadows anywhere. Depth is contrast steps, 1px hairlines, and type layered over media. A 2–4% grain overlay (visible on this page) substitutes for the site’s WebGL noise.</p>
+    <div class="elev-row">
+      <div class="elev-card e-0"><span>Level 0 — the canvas</span><span class="nm">background + border hairline</span></div>
+      <div class="elev-card e-1"><span>Level 1 — raised surface</span><span class="nm">surface #181818, no shadow</span></div>
+      <div class="elev-card e-2"><span>Level 2 — inverse section</span><span class="nm">surface-inverse, palette flipped</span></div>
+    </div>
+  </section>
+
+  <!-- ============ COMPONENTS ============ -->
+  <section class="sec" id="components">
+    <h2 class="sec-title">Components</h2>
+    <p class="sec-intro">Every component from the token block, rendered live. Hover the ghost button to see the rose-gold gradient fill.</p>
+
+    <div class="comp-group">
+      <h3>button-ghost</h3>
+      <p class="note">Primary CTA. Transparent, 1px hairline, pill. Hover fills with the rose-gold gradient; text stays white. Disabled drops to 30% opacity.</p>
+      <div class="comp-row">
+        <div><span class="state-lbl">default (hover me)</span><a class="btn-ghost" href="#components" onclick="return false">Discover Work</a></div>
+        <div><span class="state-lbl">hover</span><a class="btn-ghost is-hover" href="#components" onclick="return false">Discover Work</a></div>
+        <div><span class="state-lbl">disabled</span><a class="btn-ghost is-disabled" href="#components" onclick="return false">Discover Work</a></div>
+      </div>
+    </div>
+
+    <div class="comp-group">
+      <h3>button-solid</h3>
+      <p class="note">Secondary action — surface fill, used over media or on inverse sections.</p>
+      <div class="comp-row">
+        <div><span class="state-lbl">default</span><button class="btn-solid">Get in touch</button></div>
+        <div><span class="state-lbl">disabled</span><button class="btn-solid is-disabled">Get in touch</button></div>
+      </div>
+    </div>
+
+    <div class="comp-group">
+      <h3>chip-label</h3>
+      <p class="note">Bare uppercase micro-text for categories, roles, dates. No boxes, no backgrounds.</p>
+      <div class="comp-row"><span class="chip-label">Creative Direction</span><span class="chip-label">3D Post Production</span><span class="chip-label">Motion Capture</span></div>
+    </div>
+
+    <div class="comp-group">
+      <h3>nav-link</h3>
+      <p class="note">Tracked uppercase; state changes are opacity (0.6 → 1) and a 1px underline — never color.</p>
+      <div class="comp-row">
+        <a class="navlink is-active" href="#components" onclick="return false">Work</a>
+        <a class="navlink" href="#components" onclick="return false">Manifesto</a>
+        <a class="navlink" href="#components" onclick="return false">Team</a>
+        <a class="navlink" href="#components" onclick="return false">Contact</a>
+      </div>
+    </div>
+
+    <div class="comp-group">
+      <h3>card-project</h3>
+      <p class="note">Sharp-cornered media frame, h4 title, chip-label meta. Hover scales the image ~1.05 inside the clipped frame — motion is the feedback.</p>
+      <div class="comp-row">
+        <a class="card-project" href="#components" onclick="return false">
+          <div class="frame"><div class="img"></div></div>
+          <div class="ttl">NIGHT GOGGLES by Mindchatter</div>
+          <span class="chip-label">Creative Direction — 3D</span>
+        </a>
+        <a class="card-project" href="#components" onclick="return false">
+          <div class="frame"><div class="img" style="filter:hue-rotate(140deg)"></div></div>
+          <div class="ttl">La Dame de Soie — Cartier</div>
+          <span class="chip-label">Production — Post Production</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="comp-group">
+      <h3>footer-link</h3>
+      <p class="note">Contact actions set at h2 scale — navigation as display typography. Hover draws a 2px gradient underline.</p>
+      <div class="comp-row"><a class="footer-link" href="#components" onclick="return false">hello@inyd.studio</a></div>
+    </div>
+  </section>
+
+  <!-- ============ DO'S AND DON'TS ============ -->
+  <section class="sec" id="dos-donts">
+    <h2 class="sec-title">Do’s and Don’ts</h2>
+    <div class="dd" style="margin-top:var(--space-lg)">
+      <div class="do">
+        <h3>✓ Do</h3>
+        <ul>
+          <li>Let one oversized Light-weight headline dominate each screen; scale type up rather than adding elements.</li>
+          <li>Reserve the rose-gold gradient (deep rose → rose gold) for interaction feedback — hovers, active states, progress.</li>
+          <li>Use uppercase 11px labels with open tracking for every piece of meta text.</li>
+          <li>Keep media and cards sharp-cornered and edge-to-edge; keep pills exclusively for pressable things.</li>
+          <li>Animate with slow, eased reveals (opacity + translate) — the brand moves like film, not like an app.</li>
+          <li>Maintain the two-mode symmetry: any section may invert to white, swapping the palette exactly.</li>
+        </ul>
+      </div>
+      <div class="dont">
+        <h3>✗ Don’t</h3>
+        <ul>
+          <li>Don’t bold headlines or use weights above 400 at sizes over 15px — weight 600 lives at label size only.</li>
+          <li>Don’t introduce box shadows, glows, or glass blur; depth comes from contrast and hairlines.</li>
+          <li>Don’t use the coral accent as static decoration, large fills, or body-text color.</li>
+          <li>Don’t round the corners of cards, images, or containers — pill radius means “interactive” only.</li>
+          <li>Don’t tighten spacing to fit more content; cut content instead.</li>
+          <li>Don’t add new hues — the palette is black, white, two grays, the three rose-gold gradient stops, and the coral accent.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>
